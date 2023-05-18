@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.8em;
+    border-top: 2px solid dimgrey;
+    border-bottom: 2px solid dimgrey;
+}
+
+.header img {
+    width: 2em;
+    height: 2em;
+    margin: 0 1em;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+}
+
+.iconBasket {
+    width: 1.5em;
+    height: 1.5em;
+    background-color: red;
+    border-radius: 50%;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 0.2em;
+    position: absolute;
+    right: 2.3em;
+    top: 8em;
+}
