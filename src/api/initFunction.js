@@ -4,8 +4,8 @@ import {useDispatch} from "react-redux";
 
 const dispatch = useDispatch();
 
-export const getAllProducts = () => {
-    axios
+export const getAllProducts = async () => {
+    await axios
         .get('/allProducts')
         .then((res) => {
             console.log('Получение всех товаров', res.data)
@@ -16,8 +16,8 @@ export const getAllProducts = () => {
         })
 }
 
-export const getAllCategory = () => {
-    axios
+export const getAllCategory = async () => {
+    await axios
         .get('/allCategory')
         .then((res) => {
             console.log('Получение всех категорий', res.data)
@@ -28,8 +28,8 @@ export const getAllCategory = () => {
         })
 }
 
-export const checkIsAdmin = (id) => {
-    axios
+export const checkIsAdmin = async (id) => {
+    await axios
         .post('/isAdmin', {id})
         .then((res) => {
             console.log(res.data)

@@ -62,7 +62,6 @@ const ProductEdit = ({product}) => {
 
         axios
             .delete(`/deleteProduct/${product._id}`, {
-                headers: {'Content-Type': 'application/json'},
                 data: data
             })
             .then(() => {

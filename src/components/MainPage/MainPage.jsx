@@ -28,6 +28,9 @@ const MainPage = () => {
                             <div className={classes.item} onClick={() => navigate('/AddProduct')}>
                                 Создать новый товар
                             </div>
+                            <div className={classes.item} onClick={() => navigate('/StopList')}>
+                                Стоп лист
+                            </div>
                         </>
                         : <div className={classes.item}>
                             Хочу забронировать стол
