@@ -15,6 +15,8 @@ const EditProduct = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [promotionTimeStart, setPromotionTimeStart] = useState('');
+    const [promotionTimeFinish, setPromotionTimeFinish] = useState('');
     const [isStop, setIsStop] = useState(false);
     const [BD, setBD] = useState([]);
 
@@ -47,6 +49,8 @@ const EditProduct = () => {
                 name,
                 description,
                 price,
+                promotionTimeStart,
+                promotionTimeFinish,
                 isStop
             },
             '/addProduct');
@@ -96,6 +100,12 @@ const EditProduct = () => {
                 <input placeholder={'Введите цену товара'}
                        value={price}
                        onChange={(e) => setPrice(e.target.value)}/>
+                <input placeholder={'Введити часы начала акции'}
+                       value={promotionTimeStart}
+                       onChange={(e) => setPromotionTimeStart(e.target.value)}/>
+                <input placeholder={'Введити часы конца акции'}
+                       value={promotionTimeFinish}
+                       onChange={(e) => setPromotionTimeFinish(e.target.value)}/>
                 <textarea placeholder={'Напишите описание товара'}
                           value={description}
                           onChange={e => setDescription(e.target.value)}/>

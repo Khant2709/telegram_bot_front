@@ -4,7 +4,6 @@ import './App.css';
 
 import {useTelegram} from "./hooks/useTelegram";
 
-import Header from "./components/Header/Header";
 import MainPage from "./components/MainPage/MainPage";
 import Menu from "./components/Menu/Menu";
 import EditCategory from "./components/editMenu/editCategory";
@@ -58,8 +57,6 @@ function App() {
     }, [])
 
     return (
-        <>
-            <Header/>
             <Routes>
                 <Route path={'/'} element={<MainPage/>}/>
                 <Route path={'/Menu/*'} element={<Menu/>}/>
@@ -67,7 +64,6 @@ function App() {
                 <Route path={'/AddProduct'} element={<EditProduct/>}/>
                 <Route path={'/StopList'} element={<StopList/>}/>
             </Routes>
-        </>
     );
 }
 

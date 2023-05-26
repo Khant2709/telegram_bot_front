@@ -15,6 +15,7 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
     const navigate = useNavigate();
     const {tg, queryId} = useTelegram();
     const [place, setPlace] = useState('');
+    const time = new Date().getHours();
 
     const onSendData = () => {
         sendData(
@@ -29,7 +30,7 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
 
     useMainButtonEvent(tg, onSendData);
 
-    const decreaseCount  = (id) => {
+    const decreaseCount = (id) => {
         dispatch(updateMenu(menuList.map(el => {
             if (el._id === id && el.count > 0) {
                 dispatch(deleteProductList(el));
@@ -40,7 +41,7 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
         })));
     }
 
-    const increaseCount  = (id) => {
+    const increaseCount = (id) => {
         dispatch(updateMenu(menuList.map(el => {
             if (el._id === id) {
                 dispatch(addProductList(el));
@@ -82,6 +83,7 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
             </>}
 
             {dataList?.map((el, index) => {
+                const promotion = !el?.promotionTimeStart || !el?.promotionTimeFinish || el?.promotionTimeStart >= time && el?.promotionTimeFinish < time;
                 if (!el.isStop) {
                     return <div key={index} className={classes.item}>
                     <span className={classes.itemName} onClick={() => navigate(`${el._id}`)}>
@@ -90,11 +92,13 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
                         <span className={classes.itemPrice}>
                         {el.price} р
                     </span>
+                        {promotion &&
                         <div className={classes.itemBuy}>
                             <img src={minus} className={classes.img} onClick={() => decreaseCount(el._id)}/>
                             <span>{el.count}</span>
                             <img src={plus} className={classes.img} onClick={() => increaseCount(el._id)}/>
                         </div>
+                        }
                     </div>
                 }
             })}
