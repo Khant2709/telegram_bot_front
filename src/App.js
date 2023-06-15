@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Route, Routes} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 import './App.css';
 
 import {useTelegram} from "./hooks/useTelegram";
@@ -10,20 +10,21 @@ import EditCategory from "./components/editMenu/editCategory";
 import EditProduct from "./components/editMenu/editProduct";
 import StopList from "./components/StopList/StopList";
 import axios from "./axios";
-import {checkAdmin, updateCategory, updateMenu} from "./Redux/Slices/Menu";
+import {updateCategory, updateMenu} from "./Redux/Slices/Menu";
 import {useDispatch} from "react-redux";
-
+import Login from "./components/login/login";
 
 
 function App() {
 
     const {tg, user} = useTelegram();
     const dispatch = useDispatch();
+    const {pathname} = useLocation();
+    const [tokenAdmin, setTokenAdmin] = useState('')
 
-    useEffect( () => {
+    useEffect(() => {
         //Этот метод показывает, что приложение полностью проинициализировалось и его можно отрисовывать
         tg.ready();
-        const id = user.id;
 
         axios
             .get('/allProducts')
@@ -44,26 +45,21 @@ function App() {
             .catch((err) => {
                 console.warn("Категории не получены", err)
             })
-
-        axios
-            .post('/isAdmin', {id})
-            .then((res) => {
-                console.log(res.data)
-                dispatch(checkAdmin(res.data));
-            })
-            .catch((err) => {
-                console.warn(err)
-            })
     }, [])
 
+    useEffect(() => {
+        setTokenAdmin(window.localStorage.getItem('tokenUser'))
+    }, [pathname])
+
     return (
-            <Routes>
-                <Route path={'/'} element={<MainPage/>}/>
-                <Route path={'/Menu/*'} element={<Menu/>}/>
-                <Route path={'/EditCategory'} element={<EditCategory/>}/>
-                <Route path={'/AddProduct'} element={<EditProduct/>}/>
-                <Route path={'/StopList'} element={<StopList/>}/>
-            </Routes>
+        <Routes>
+            <Route path={'/'} element={<MainPage tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/login'} element={<Login id={user.id} tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/Menu/*'} element={<Menu tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/EditCategory'} element={<EditCategory tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/AddProduct'} element={<EditProduct tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/StopList'} element={<StopList tokenAdmin={tokenAdmin}/>}/>
+        </Routes>
     );
 }
 

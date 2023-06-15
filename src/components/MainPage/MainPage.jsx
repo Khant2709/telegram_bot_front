@@ -1,18 +1,15 @@
 import React from 'react';
 import classes from './MainPage.module.css';
 import {useNavigate} from "react-router";
-import {useSelector} from "react-redux";
 
-const MainPage = () => {
+const MainPage = ({tokenAdmin}) => {
 
     const navigate = useNavigate();
-    const {isAdmin} = useSelector((state) => state.menu);
-
 
     return (
         <div className={classes.MainBlock}>
             <div className={classes.logo}>
-                <span>Lava</span><br/>
+                <span onClick={() => navigate('/login')}>Lava</span><br/>
                 <span>Lounge</span>
             </div>
             <div className={classes.item} onClick={() => navigate('/Menu')}>
@@ -20,7 +17,7 @@ const MainPage = () => {
             </div>
             <div className={classes.itemsList}>
                 {
-                    isAdmin
+                    tokenAdmin
                         ? <>
                             <div className={classes.item} onClick={() => navigate('/EditCategory')}>
                                 Создать новую категорию
@@ -34,7 +31,7 @@ const MainPage = () => {
                         </>
                         : <div className={classes.item}>
                             Хочу забронировать стол
-                          </div>
+                        </div>
                 }
             </div>
         </div>

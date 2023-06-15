@@ -3,8 +3,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 const initialState = {
     menuList: [],
     categoryList: [],
-    addedProductList: [],
-    isAdmin: false
+    addedProductList: []
 };
 
 const menuSlice = createSlice({
@@ -16,9 +15,6 @@ const menuSlice = createSlice({
         },
         updateCategory: (state, action) => {
             state.categoryList = action.payload
-        },
-        checkAdmin: (state, action) => {
-            state.isAdmin = action.payload
         },
         addProductList: (state, action) => {
             if (state.addedProductList.some(el => el._id === action.payload._id)) {
@@ -54,6 +50,6 @@ const menuSlice = createSlice({
     }
 })
 
-export const {updateMenu, updateCategory, checkAdmin, addProductList, deleteProductList} = menuSlice.actions;
+export const {updateMenu, updateCategory, addProductList, deleteProductList} = menuSlice.actions;
 
 export const MenuReduser = menuSlice.reducer;

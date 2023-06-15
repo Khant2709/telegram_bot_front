@@ -5,7 +5,7 @@ import axios from "../../../axios";
 import useMainButtonEvent from "../../../hooks/useMainButtonEvent";
 import { updateData} from "../../../unitFunction/onSendData";
 
-const ProductEdit = ({product}) => {
+const ProductEdit = ({product, tokenAdmin}) => {
 
     const {tg, queryId} = useTelegram();
 
@@ -53,7 +53,8 @@ const ProductEdit = ({product}) => {
                 price,
                 promotionTimeStart,
                 promotionTimeFinish,
-                isStop
+                isStop,
+                token: tokenAdmin
             },
             '/updateProduct');
     }
@@ -61,7 +62,8 @@ const ProductEdit = ({product}) => {
     const removeData = () => {
 
         const data = {
-            queryId
+            queryId,
+            token: tokenAdmin
         }
 
         console.log(data)

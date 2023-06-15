@@ -6,18 +6,20 @@ import {useTelegram} from "../../hooks/useTelegram";
 import back from "../../img/back.png";
 import {useNavigate} from "react-router";
 
-const StopList = () => {
+const StopList = ({tokenAdmin}) => {
 
     const {menuList} = useSelector((state) => state.menu);
     const navigate = useNavigate();
     const {queryId} = useTelegram();
 
-    const deleteInStop = (id, isStop) => {
+    const deleteInStop = (id,name, isStop) => {
         updateData(
             {
                 id,
+                name,
                 queryId,
-                isStop
+                isStop,
+                token: tokenAdmin
             },
             '/updateProduct');
     }
@@ -34,7 +36,7 @@ const StopList = () => {
                     <span className={classes.itemName}>
                         {el.name}
                     </span>
-                        <button onClick={() => deleteInStop(el._id, false)}>
+                        <button onClick={() => deleteInStop(el._id, el.name, false)}>
                             Удалить из стопа
                         </button>
                     </div>

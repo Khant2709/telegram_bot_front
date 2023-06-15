@@ -11,7 +11,7 @@ import MenuAdmin from "./MenuItem/MenuAdmin";
 import Product from "./Product/Product";
 
 
-const Menu = () => {
+const Menu = ({tokenAdmin}) => {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -19,7 +19,7 @@ const Menu = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [countItem, setCountItem] = useState(0);
 
-    const {menuList, categoryList, addedProductList, isAdmin} = useSelector((state) => state.menu);
+    const {menuList, categoryList, addedProductList} = useSelector((state) => state.menu);
 
     const categoryMap = categoryList.reduce((state, el) => {
         state[el.name] = {
@@ -63,11 +63,11 @@ const Menu = () => {
             <Routes>
                 <Route path='/' element={<NavBar category={category} linkTo={linkTo}/>}/>
                 <Route path={`${myKey}/*`} element={
-                    <Product isAdmin={isAdmin}
+                    <Product tokenAdmin={tokenAdmin}
                              menuList={menuList}
                     />}/>
                 <Route path={myKey} element={
-                    isAdmin
+                    tokenAdmin
                         ? <MenuAdmin dataList={dataList} menuList={menuList}/>
                         : <MenuItem dataList={dataList}
                                     myKey={myKey}

@@ -8,7 +8,7 @@ import useMainButtonEvent from "../../hooks/useMainButtonEvent";
 import {sendData} from "../../unitFunction/onSendData";
 
 
-const EditProduct = () => {
+const EditProduct = ({tokenAdmin}) => {
 
     const [category, setCategory] = useState('');
     const [categoryRu, setCategoryRu] = useState('');
@@ -51,7 +51,8 @@ const EditProduct = () => {
                 price,
                 promotionTimeStart,
                 promotionTimeFinish,
-                isStop
+                isStop,
+                token: tokenAdmin
             },
             '/addProduct');
     }
@@ -62,7 +63,7 @@ const EditProduct = () => {
         if (category && categoryRu && name && price) {
             tg?.MainButton.show();
             tg?.MainButton.setParams({
-                text: `Создать категорию`,
+                text: `Создать товар`,
             });
         } else {
             tg?.MainButton.hide();

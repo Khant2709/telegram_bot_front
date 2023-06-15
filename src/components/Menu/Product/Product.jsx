@@ -3,7 +3,7 @@ import ProductEdit from "./ProductEdit";
 import {useParams} from "react-router-dom";
 import ProductShow from "./ProductShow";
 
-const Product = ({isAdmin, menuList}) => {
+const Product = ({tokenAdmin, menuList}) => {
 
     const params = useParams();
 
@@ -16,8 +16,8 @@ const Product = ({isAdmin, menuList}) => {
 
     return (
         <>
-            {isAdmin
-                ? <ProductEdit product={currentProduct}/>
+            {tokenAdmin
+                ? <ProductEdit product={currentProduct} tokenAdmin={tokenAdmin}/>
                 : <ProductShow product={currentProduct}/>
             }
         </>

@@ -7,7 +7,7 @@ import useMainButtonEvent from "../../hooks/useMainButtonEvent";
 import {sendData} from "../../unitFunction/onSendData";
 
 
-const EditCategory = () => {
+const EditCategory = ({tokenAdmin}) => {
 
         const [name, setName] = useState('');
         const [nameRu, setNameRu] = useState('');
@@ -15,9 +15,9 @@ const EditCategory = () => {
         const navigate = useNavigate();
         const {tg, queryId} = useTelegram();
 
-    const onSendData = () => {
-        sendData({queryId, name, nameRu}, '/addCategory')
-    }
+        const onSendData = () => {
+            sendData({queryId, name, nameRu, token: tokenAdmin}, '/addCategory')
+        }
 
         useMainButtonEvent(tg, onSendData);
         useEffect(() => {
