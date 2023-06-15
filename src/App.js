@@ -5,6 +5,7 @@ import './App.css';
 import {useTelegram} from "./hooks/useTelegram";
 
 import MainPage from "./components/MainPage/MainPage";
+import Login from "./components/login/login";
 import Menu from "./components/Menu/Menu";
 import EditCategory from "./components/editMenu/editCategory";
 import EditProduct from "./components/editMenu/editProduct";
@@ -12,7 +13,7 @@ import StopList from "./components/StopList/StopList";
 import axios from "./axios";
 import {updateCategory, updateMenu} from "./Redux/Slices/Menu";
 import {useDispatch} from "react-redux";
-import Login from "./components/login/login";
+import {sendData} from "./unitFunction/onSendData";
 
 
 function App() {
@@ -26,10 +27,16 @@ function App() {
         //Этот метод показывает, что приложение полностью проинициализировалось и его можно отрисовывать
         tg.ready();
 
+        sendData({
+            userId : user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username
+        },'/saveUser')
+
         axios
             .get('/allProducts')
             .then((res) => {
-                console.log('Получение всех товаров', res.data)
                 dispatch(updateMenu(res.data))
             })
             .catch((err) => {
@@ -39,7 +46,6 @@ function App() {
         axios
             .get('/allCategory')
             .then((res) => {
-                console.log('Получение всех категорий', res.data)
                 dispatch(updateCategory(res.data))
             })
             .catch((err) => {
