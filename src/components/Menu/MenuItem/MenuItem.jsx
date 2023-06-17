@@ -83,7 +83,8 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
             </>}
 
             {dataList?.map((el, index) => {
-                const promotion = !el?.promotionTimeStart || !el?.promotionTimeFinish || el?.promotionTimeStart >= time && el?.promotionTimeFinish < time;
+                const checkTimePromotion = el?.promotionTimeStart <= time && el?.promotionTimeFinish > time;
+                const promotion = !el?.promotionTimeStart || !el?.promotionTimeFinish || checkTimePromotion;
                 if (!el.isStop) {
                     return <div key={index} className={classes.item}>
                     <span className={classes.itemName} onClick={() => navigate(`${el._id}`)}>

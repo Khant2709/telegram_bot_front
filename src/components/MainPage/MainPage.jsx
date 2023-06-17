@@ -28,6 +28,9 @@ const MainPage = ({tokenAdmin}) => {
                             <div className={classes.item} onClick={() => navigate('/StopList')}>
                                 Стоп лист
                             </div>
+                            <div className={classes.item} onClick={() => navigate('/PushPromotion')}>
+                                Рассылка
+                            </div>
                         </>
                         : <div className={classes.item}>
                             Хочу забронировать стол

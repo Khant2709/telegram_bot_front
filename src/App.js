@@ -6,6 +6,7 @@ import {useTelegram} from "./hooks/useTelegram";
 
 import MainPage from "./components/MainPage/MainPage";
 import Login from "./components/login/login";
+import PushPromotion from "./components/PushPromotion/PushPromotion";
 import Menu from "./components/Menu/Menu";
 import EditCategory from "./components/editMenu/editCategory";
 import EditProduct from "./components/editMenu/editProduct";
@@ -61,6 +62,7 @@ function App() {
         <Routes>
             <Route path={'/'} element={<MainPage tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/login'} element={<Login id={user.id} tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/PushPromotion'} element={<PushPromotion tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/Menu/*'} element={<Menu tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/EditCategory'} element={<EditCategory tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/AddProduct'} element={<EditProduct tokenAdmin={tokenAdmin}/>}/>
