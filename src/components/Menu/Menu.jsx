@@ -44,8 +44,6 @@ const Menu = ({tokenAdmin}) => {
     const linkTo = [...new Set(Object.values(menuList).flat().map(el => el.category))];
     const category = [...new Set(Object.values(menuList).flat().map(el => el.categoryRu))];
 
-    console.log({categoryMap})
-
     return (
         <div>
             <div className={classes.header}>

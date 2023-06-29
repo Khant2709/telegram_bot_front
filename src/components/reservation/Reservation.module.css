@@ -1,0 +1,87 @@
+.main {
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em 0;
+}
+
+.btns button {
+    padding: 0.5em;
+    border-radius: 10px;
+}
+
+.title {
+    margin: 1.5em;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.inp {
+    width: 100%;
+    padding: 0.8em;
+    border-radius: 10px;
+    margin-bottom: 1.5em;
+}
+
+.select {
+    padding: 10px;
+    margin: 1.5em 0;
+    border-radius: 10px;
+}
+
+.time {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.time span {
+    align-self: center;
+}
+
+.time input {
+    width: 40%;
+    padding: 0.5em;
+    margin-bottom: 0;
+}
+
+.calendarLable {
+    margin-bottom: 0.5em;
+}
+
+.err {
+    margin-top: 1em;
+    text-align: center;
+    color: red;
+}
+
+.confirmReservation {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1em;
+}
+
+.confirmReservation span {
+    flex-basis: 60%;
+    align-self: center;
+    margin-left: 1.5em;
+}
+
+.confirmReservation input {
+    flex-basis: 20%;
+}
+
+.delete {
+    width: 100%;
+    background-color: red;
+    border-radius: 10px;
+    padding: 0.8em;
+    margin: 1em 0;
+}

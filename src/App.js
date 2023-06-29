@@ -15,6 +15,8 @@ import axios from "./axios";
 import {updateCategory, updateMenu} from "./Redux/Slices/Menu";
 import {useDispatch} from "react-redux";
 import {sendData} from "./unitFunction/onSendData";
+import Reservation from "./components/reservation/Reservation";
+import AddReservation from "./components/reservation/AddReservation";
 
 
 function App() {
@@ -60,13 +62,15 @@ function App() {
 
     return (
         <Routes>
-            <Route path={'/'} element={<MainPage tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/'} element={<MainPage tokenAdmin={tokenAdmin} admin={user.id}/>}/>
             <Route path={'/login'} element={<Login id={user.id} tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/PushPromotion'} element={<PushPromotion tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/Menu/*'} element={<Menu tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/EditCategory'} element={<EditCategory tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/AddProduct'} element={<EditProduct tokenAdmin={tokenAdmin}/>}/>
             <Route path={'/StopList'} element={<StopList tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/Reservation'} element={<Reservation/>}/>
+            <Route path={'/AddReservation/*'} element={<AddReservation/>}/>
         </Routes>
     );
 }

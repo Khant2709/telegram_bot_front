@@ -2,9 +2,10 @@ import React from 'react';
 import classes from './MainPage.module.css';
 import {useNavigate} from "react-router";
 
-const MainPage = ({tokenAdmin}) => {
+const MainPage = ({tokenAdmin, admin}) => {
 
     const navigate = useNavigate();
+    const block = admin === 1202872433 || admin === 876552997 || admin === 673218983
 
     return (
         <div className={classes.MainBlock}>
@@ -15,10 +16,15 @@ const MainPage = ({tokenAdmin}) => {
             <div className={classes.item} onClick={() => navigate('/Menu')}>
                 Открыть меню
             </div>
+            {
+                block && <div className={classes.item} onClick={() => navigate('/Reservation')}>
+                    {tokenAdmin ? 'Управление бронями' : 'Збронировать стол'}
+                </div>
+            }
             <div className={classes.itemsList}>
                 {
-                    tokenAdmin
-                        ? <>
+                    tokenAdmin &&
+                         <>
                             <div className={classes.item} onClick={() => navigate('/EditCategory')}>
                                 Создать новую категорию
                             </div>
@@ -32,9 +38,6 @@ const MainPage = ({tokenAdmin}) => {
                                 Рассылка
                             </div>
                         </>
-                        : <div className={classes.item}>
-                            Хочу забронировать стол
-                        </div>
                 }
             </div>
         </div>
