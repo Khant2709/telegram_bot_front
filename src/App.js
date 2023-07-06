@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Route, Routes} from "react-router-dom";
 import './App.css';
 
 import {useTelegram} from "./hooks/useTelegram";
@@ -23,8 +23,6 @@ function App() {
 
     const {tg, user} = useTelegram();
     const dispatch = useDispatch();
-    const {pathname} = useLocation();
-    const [tokenAdmin, setTokenAdmin] = useState('')
 
     useEffect(() => {
         //Этот метод показывает, что приложение полностью проинициализировалось и его можно отрисовывать
@@ -56,21 +54,17 @@ function App() {
             })
     }, [])
 
-    useEffect(() => {
-        setTokenAdmin(window.localStorage.getItem('tokenUser'))
-    }, [pathname])
-
     return (
         <Routes>
-            <Route path={'/'} element={<MainPage tokenAdmin={tokenAdmin} admin={user.id}/>}/>
-            <Route path={'/login'} element={<Login id={user.id} tokenAdmin={tokenAdmin}/>}/>
-            <Route path={'/PushPromotion'} element={<PushPromotion tokenAdmin={tokenAdmin}/>}/>
-            <Route path={'/Menu/*'} element={<Menu tokenAdmin={tokenAdmin}/>}/>
-            <Route path={'/EditCategory'} element={<EditCategory tokenAdmin={tokenAdmin}/>}/>
-            <Route path={'/AddProduct'} element={<EditProduct tokenAdmin={tokenAdmin}/>}/>
-            <Route path={'/StopList'} element={<StopList tokenAdmin={tokenAdmin}/>}/>
+            <Route path={'/'} element={<MainPage/>}/>
+            <Route path={'/login'} element={<Login id={user.id}/>}/>
+            <Route path={'/PushPromotion'} element={<PushPromotion/>}/>
+            <Route path={'/Menu/*'} element={<Menu/>}/>
+            <Route path={'/EditCategory'} element={<EditCategory/>}/>
+            <Route path={'/AddProduct/*'} element={<EditProduct/>}/>
+            <Route path={'/StopList'} element={<StopList/>}/>
             <Route path={'/Reservation'} element={<Reservation/>}/>
-            <Route path={'/AddReservation/*'} element={<AddReservation/>}/>
+            <Route path={'/AddReservation'} element={<AddReservation/>}/>
         </Routes>
     );
 }

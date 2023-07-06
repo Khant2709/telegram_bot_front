@@ -32,10 +32,6 @@
     border-color: greenyellow;
 }
 
-.confirmed {
-    border-color: blue;
-}
-
 .place {
     flex-basis: 25%;
     display: flex;

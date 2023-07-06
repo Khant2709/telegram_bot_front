@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from "./NavBar.module.css";
+import itemClasses from '../../../generalStyle/item.module.css'
 import {useNavigate} from "react-router";
 
 const NavBar = ({category, linkTo}) => {
@@ -9,7 +10,7 @@ const NavBar = ({category, linkTo}) => {
     return (
         <div  className={classes.mainBlock}>
             {category.map((el, index) => {
-                return <div key={index}  className={classes.item} onClick={() => navigate(`${linkTo[index]}`)}>
+                return <div key={index}  className={itemClasses.item} onClick={() => navigate(`${linkTo[index]}`)}>
                     {el}
                 </div>
             })}

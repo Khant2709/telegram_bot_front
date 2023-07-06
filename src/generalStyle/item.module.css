@@ -1,0 +1,14 @@
+.item, .itemEdit{
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 12px;
+    border: 1px solid #75B1FF;
+    color: #EFEFEF;
+    font-size: 1.2em;
+}
+
+.itemEdit {
+    display: flex;
+}

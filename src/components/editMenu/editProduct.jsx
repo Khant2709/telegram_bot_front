@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import classes from './editCategory.module.css'
-import back from "../../img/back.png";
-import {useNavigate} from "react-router";
 import {useTelegram} from "../../hooks/useTelegram";
 import axios from "../../axios";
 import useMainButtonEvent from "../../hooks/useMainButtonEvent";
-import {sendData} from "../../unitFunction/onSendData";
+import {sendData, updateData} from "../../unitFunction/onSendData";
+import {useLocation, useParams} from "react-router-dom";
 
 
-const EditProduct = ({tokenAdmin}) => {
+const EditProduct = ({product}) => {
 
     const [category, setCategory] = useState('');
     const [categoryRu, setCategoryRu] = useState('');
@@ -21,8 +20,10 @@ const EditProduct = ({tokenAdmin}) => {
     const [BD, setBD] = useState([]);
 
 
-    const navigate = useNavigate();
+    const location = useLocation();
+    const tokenAdmin = window.localStorage.getItem('tokenUser');
     const {tg, queryId} = useTelegram();
+    const checkDate = product && location.pathname.split('/').length > 2
 
     useEffect(() => {
         axios
@@ -37,24 +38,79 @@ const EditProduct = ({tokenAdmin}) => {
     }, [])
 
     useEffect(() => {
-        categoryRu && setCategory(BD.find(el => el.nameRu === categoryRu).name);
-    }, [categoryRu])
+        axios
+            .get('/allCategory')
+            .then((res) => {
+                console.log('Произошла отправка запроса в БД', res.data)
+                setBD(res.data);
+            })
+            .catch((err) => {
+                console.warn("Произошла ошибочка в БД", err)
+            })
+
+        if (checkDate) {
+            setCategory(product?.category);
+            setCategoryRu(product?.categoryRu);
+            setName(product?.name);
+            setPrice(product?.price);
+            setIsStop(product.isStop);
+            setPromotionTimeStart(product?.promotionTimeStart);
+            setPromotionTimeFinish(product?.promotionTimeFinish);
+            setDescription(product?.description)
+        }
+    }, [product])
+
+    const removeData = () => {
+
+        const data = {
+            queryId,
+            token: tokenAdmin
+        }
+
+        console.log(data)
+
+        axios
+            .delete(`/deleteProduct/${product._id}`, {
+                data: data
+            })
+            .then(() => {
+                console.log('Произошла отправка обновлений', data)
+            }).catch((err) => {
+            console.warn("Произошла ошибочка обновлений ", err)
+        })
+    }
 
     const onSendData = () => {
-        sendData(
-            {
-                queryId,
-                category,
-                categoryRu,
-                name,
-                description,
-                price,
-                promotionTimeStart,
-                promotionTimeFinish,
-                isStop,
-                token: tokenAdmin
-            },
-            '/addProduct');
+        checkDate
+            ? updateData(
+                {
+                    id: product._id,
+                    queryId,
+                    category,
+                    categoryRu,
+                    name,
+                    description,
+                    price,
+                    promotionTimeStart,
+                    promotionTimeFinish,
+                    isStop,
+                    token: tokenAdmin
+                },
+                '/updateProduct')
+            : sendData(
+                {
+                    queryId,
+                    category,
+                    categoryRu,
+                    name,
+                    description,
+                    price,
+                    promotionTimeStart,
+                    promotionTimeFinish,
+                    isStop,
+                    token: tokenAdmin
+                },
+                '/addProduct');
     }
 
     useMainButtonEvent(tg, onSendData);
@@ -63,7 +119,7 @@ const EditProduct = ({tokenAdmin}) => {
         if (category && categoryRu && name && price) {
             tg?.MainButton.show();
             tg?.MainButton.setParams({
-                text: `Создать товар`,
+                text: checkDate ? 'Обновить товар' : `Создать товар`,
             });
         } else {
             tg?.MainButton.hide();
@@ -72,12 +128,9 @@ const EditProduct = ({tokenAdmin}) => {
 
     return (
         <>
-            <div className={classes.header}>
-                <img src={back} onClick={() => navigate(-1)}/>
-            </div>
             <div className={classes.mainBlock}>
                 <h2 className={classes.title}>
-                    Создание нового товара
+                    {checkDate ? name : 'Создание нового товара'}
                 </h2>
                 <select className={classes.select} value={category} onChange={e => setCategory(e.target.value)}>
                     <option value={''}>Укажите категорию товара EN</option>
@@ -111,13 +164,14 @@ const EditProduct = ({tokenAdmin}) => {
                           value={description}
                           onChange={e => setDescription(e.target.value)}/>
                 <div className={classes.blockIsStop}>
-                <span>
+                    <span>
                     {isStop
                         ? 'Убрать из стоплиста'
                         : 'Поставить в стоплист'}
-                </span>
+                    </span>
                     <input type={'checkbox'} checked={isStop} value={isStop} onClick={() => setIsStop(!isStop)}/>
                 </div>
+                <button onClick={removeData}>Удалить товар</button>
             </div>
         </>
     );

@@ -3,18 +3,19 @@ import classes from './Menu.module.css';
 import {Route, Routes, useNavigate} from "react-router";
 import NavBar from "./NavBar/NavBar";
 import MenuItem from "./MenuItem/MenuItem";
-import back from '../../img/back.png';
 import basketImg from '../../img/basket.png';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import MenuAdmin from "./MenuItem/MenuAdmin";
 import Product from "./Product/Product";
+import ButtonBack from "../ButtonBack/ButtonBack";
 
 
-const Menu = ({tokenAdmin}) => {
+const Menu = () => {
 
     const navigate = useNavigate();
     const params = useParams();
+    const tokenAdmin = window.localStorage.getItem('tokenUser');
 
     const [totalPrice, setTotalPrice] = useState(0);
     const [countItem, setCountItem] = useState(0);
@@ -47,7 +48,7 @@ const Menu = ({tokenAdmin}) => {
     return (
         <div>
             <div className={classes.header}>
-                <img src={back} onClick={() => navigate(-1)}/>
+                <ButtonBack/>
                 <div className={classes.headerRight} onClick={() => navigate('basket')}>
                     <span>
                         {totalPrice} р

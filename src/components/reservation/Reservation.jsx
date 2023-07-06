@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import classes from './Reservation.module.css'
-import axios from "../../axios";
 import {useNavigate} from "react-router";
 import ReservationsList from "./ReservationsList/ReservationsList";
+import {sendData} from "../../unitFunction/onSendData";
 
 const Reservation = () => {
 
@@ -16,21 +16,18 @@ const Reservation = () => {
         useEffect(() => {
                 let startTimeDay = startTime.getTime();
                 let finishTimeDay = startTime.getTime() + 57600000;
-                console.log(new Date(startTimeDay));
-                console.log(new Date(finishTimeDay));
-                axios
-                    .post('/reservation', {
+
+                sendData({
                         startTimeDay,
                         finishTimeDay
-                    })
+                    },
+                    '/getReservationCRM')
                     .then((res) => {
-                        console.log(res.data);
-                        setReservationsList(res.data);
+                        setReservationsList([...res.data.reservationsInDay, ...res.data.bookingsInDay]);
                     })
-
             }, [value]
         )
-        console.log(reservationsList)
+
         return (
             <div className={classes.main}>
                 <div className={classes.btns}>

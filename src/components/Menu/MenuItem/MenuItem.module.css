@@ -16,17 +16,6 @@
     margin-bottom: 1.5em;
 }
 
-.item {
-    display: flex;
-    width: 100%;
-    padding: 1em;
-    margin-bottom: 1em;
-    border: 1px solid var(--tg-theme-button-color);
-    color: var(--tg-theme-text-color);
-    font-family: 'Roboto Light';
-    letter-spacing: 0.1em;
-}
-
 .itemName {
     flex-basis: 60%;
     font-size: 0.8em;

@@ -12,19 +12,8 @@
     text-align: center;
     margin-top: 0.5em;
     margin-bottom: 1em;
-    font-family: 'Roboto Thin';
-    color: var(--tg-theme-text-color);
+    font-family: 'Inter';
+    color: #EFEFEF;
+    letter-spacing: 3px;
 }
 
-.itemsList {
-    margin-bottom: 4em;
-}
-
-.item {
-    width: 100%;
-    text-align: center;
-    padding: 1em;
-    margin-bottom: 1em;
-    border: 1px solid var(--tg-theme-button-color);
-    color: var(--tg-theme-text-color);
-}

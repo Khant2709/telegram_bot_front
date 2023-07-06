@@ -3,7 +3,6 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 0.8em;
-    border-top: 2px solid dimgrey;
     border-bottom: 2px solid dimgrey;
 }
 

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import classes from './MenuItem.module.css';
+import itemClasses from '../../../generalStyle/item.module.css'
 import plus from '../../../img/free-icon-add-3356207.png';
 import minus from '../../../img/free-icon-minus-3356785.png';
 import {useDispatch} from "react-redux";
@@ -87,7 +88,7 @@ const MenuItem = ({dataList, myKey, menuList, totalPrice, addedProductList}) => 
                 const promotion = !el?.promotionTimeStart || !el?.promotionTimeFinish || checkTimePromotion;
 
                 if (!el.isStop) {
-                    return <div key={index} className={classes.item}>
+                    return <div key={index} className={itemClasses.itemEdit}>
                     <span className={classes.itemName} onClick={() => navigate(`${el._id}`)}>
                         {el.name}
                     </span>

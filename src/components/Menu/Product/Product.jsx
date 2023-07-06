@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import ProductEdit from "./ProductEdit";
 import {useParams} from "react-router-dom";
 import ProductShow from "./ProductShow";
+import EditProduct from "../../editMenu/editProduct";
 
 const Product = ({tokenAdmin, menuList}) => {
 
@@ -17,7 +17,7 @@ const Product = ({tokenAdmin, menuList}) => {
     return (
         <>
             {tokenAdmin
-                ? <ProductEdit product={currentProduct} tokenAdmin={tokenAdmin}/>
+                ? <EditProduct product={currentProduct} tokenAdmin={tokenAdmin}/>
                 : <ProductShow product={currentProduct}/>
             }
         </>

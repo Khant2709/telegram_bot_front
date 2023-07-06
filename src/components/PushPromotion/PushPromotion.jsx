@@ -3,10 +3,11 @@ import classes from './PushPromotion.module.css'
 import {useNavigate} from "react-router";
 import {sendData} from "../../unitFunction/onSendData";
 
-const PushPromotion = ({tokenAdmin}) => {
+const PushPromotion = () => {
 
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const tokenAdmin = window.localStorage.getItem('tokenUser');
 
     const pushPromotion = () => {
         sendData({message, token: tokenAdmin}, '/pushPromotion')

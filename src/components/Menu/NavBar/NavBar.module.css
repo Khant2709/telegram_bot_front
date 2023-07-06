@@ -5,14 +5,3 @@
     display: flex;
     flex-direction: column;
 }
-
-.item {
-    width: 100%;
-    text-align: center;
-    padding: 1em;
-    margin-bottom: 1em;
-    border: 1px solid var(--tg-theme-button-color);
-    color: var(--tg-theme-text-color);
-    font-family: 'Roboto Light';
-    letter-spacing: 0.1em;
-}

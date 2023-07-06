@@ -6,10 +6,11 @@ import {useTelegram} from "../../hooks/useTelegram";
 import back from "../../img/back.png";
 import {useNavigate} from "react-router";
 
-const StopList = ({tokenAdmin}) => {
+const StopList = () => {
 
     const {menuList} = useSelector((state) => state.menu);
     const navigate = useNavigate();
+    const tokenAdmin = window.localStorage.getItem('tokenUser');
     const {queryId} = useTelegram();
 
     const deleteInStop = (id,name, isStop) => {

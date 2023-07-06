@@ -3,11 +3,12 @@ import classes from './login.module.css'
 import axios from "../../axios";
 import {useNavigate} from "react-router";
 
-const Login = ({id, tokenAdmin}) => {
+const Login = ({id}) => {
 
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const tokenAdmin = window.localStorage.getItem('tokenUser');
 
     const sendData = () => {
         axios

@@ -7,12 +7,13 @@ import useMainButtonEvent from "../../hooks/useMainButtonEvent";
 import {sendData} from "../../unitFunction/onSendData";
 
 
-const EditCategory = ({tokenAdmin}) => {
+const EditCategory = () => {
 
         const [name, setName] = useState('');
         const [nameRu, setNameRu] = useState('');
 
         const navigate = useNavigate();
+        const tokenAdmin = window.localStorage.getItem('tokenUser');
         const {tg, queryId} = useTelegram();
 
         const onSendData = () => {
