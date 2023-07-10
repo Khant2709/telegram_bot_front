@@ -12,21 +12,3 @@
     height: 2em;
     margin: 0 1em;
 }
-
-.mainBlock {
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-}
-
-.title {
-    margin-bottom: 1em;
-    color: var(--tg-theme-text-color);
-}
-
-.mainBlock input {
-    width: 100%;
-    padding: 0.8em;
-    border-radius: 10px;
-    margin-bottom: 1.5em;
-}

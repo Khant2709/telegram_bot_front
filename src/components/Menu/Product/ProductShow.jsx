@@ -1,11 +1,12 @@
 import React from 'react';
 import classes from "./Product.module.css";
+import classesMain from '../../../generalStyle/mainWithTitle.module.css';
 
 const ProductShow = ({product}) => {
 
     return (
-        <div className={classes.mainBlock}>
-            <h2 className={classes.title}>Карточка товара:</h2>
+        <div className={classesMain.main}>
+            <h2 className={classesMain.title}>Карточка товара:</h2>
             <div className={classes.item}>
                 <span className={classes.titleName}>Название: </span>
                 <span>{product.name}</span>

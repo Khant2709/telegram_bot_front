@@ -1,9 +1,10 @@
 .MainBlock {
     width: 100%;
-    height: 92vh;
+    height: 100vh;
     padding: 2em;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .logo {

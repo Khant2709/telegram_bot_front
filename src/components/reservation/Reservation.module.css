@@ -1,66 +1,22 @@
-.main {
-    width: 80%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-}
-.btns {
+.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 1em 0;
 }
 
-.btns button {
-    padding: 0.5em;
-    border-radius: 10px;
-}
-
-.title {
-    margin: 1em 0px 0px ;
-    text-align: center;
-    font-size: 1.3em;
-}
-
-.inp {
-    width: 100%;
-    padding: 0.8em;
-    border-radius: 10px;
-    margin-top: 1.5em;
-}
-
-.select {
-    padding: 10px;
-    margin: 1.5em 0;
-    border-radius: 10px;
-}
-
 .time {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 1em;
 }
 
 .time span {
     align-self: center;
 }
 
-.time input {
-    width: 45%;
-    padding: 0.5em;
-    margin-bottom: 1.2em;
-}
-
 .calendarLable {
     margin-bottom: 0.5em;
-}
-
-.err {
-    margin: 0.5em 0 1em;
-    text-align: center;
-    color: red;
 }
 
 .confirmReservation {

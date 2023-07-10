@@ -7,4 +7,5 @@
 body {
   background-color: #16171B;
   color: #EFEFEF;
+  font-family: var(--font-family);
 }

@@ -16,17 +16,22 @@ const ReservationsList = ({list, day}) => {
 
         switch (el.status) {
             case 'reserv' :
-                status = <div>Забронирован </div>
+                status = <div>Бронь </div>
                 borderColor = classes.notConfirmed
                 break;
             case 'busy' :
                 status = <div>Сидят</div>
                 borderColor = classes.seat
                 break;
+            case 'prepay' :
+                status = <div>На Оплате</div>
+                borderColor = ''
+                break;
             default:
                 status = <div>Не задан</div>
                 borderColor = ''
         }
+
         if (el.status !== 'free') {
             return <div className={`${classes.main} ${borderColor}`} key={index}>
                 <div className={classes.place}>

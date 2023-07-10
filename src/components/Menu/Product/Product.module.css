@@ -1,15 +1,3 @@
-/* Основной блок */
-.mainBlock {
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-}
-
-.title {
-    margin-bottom: 1em;
-    color: var(--tg-theme-text-color);
-}
-
 /* Элемент "item" */
 .item {
     display: flex;

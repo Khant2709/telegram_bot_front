@@ -19,7 +19,7 @@ const menuSlice = createSlice({
         addProductList: (state, action) => {
             if (state.addedProductList.some(el => el._id === action.payload._id)) {
                 state.addedProductList = state.addedProductList.map(el => {
-                    if (el.id === action.payload.id) {
+                    if (el._id === action.payload._id) {
                         return {...el, count: el.count + 1}
                     } else {
                         return el

@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './MainPage.module.css';
 import itemClasses from '../../generalStyle/item.module.css'
+import classesMain from '../../generalStyle/mainWithTitle.module.css'
 import {useNavigate} from "react-router";
 
 const MainPage = () => {
@@ -9,7 +10,7 @@ const MainPage = () => {
     const tokenAdmin = window.localStorage.getItem('tokenUser');
 
     return (
-        <div className={classes.MainBlock}>
+        <div className={classesMain.main}>
             <div className={classes.logo}>
                 <span onClick={() => navigate('/login')}>Lava</span><br/>
                 <span>Lounge</span>

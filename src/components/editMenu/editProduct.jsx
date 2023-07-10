@@ -1,16 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import classes from './editCategory.module.css'
+import classes from '../../generalStyle/mainWithTitle.module.css';
 import {useTelegram} from "../../hooks/useTelegram";
 import axios from "../../axios";
 import useMainButtonEvent from "../../hooks/useMainButtonEvent";
 import {sendData, updateData} from "../../unitFunction/onSendData";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
+
+import {InputText} from "primereact/inputtext";
+import {Dropdown} from "primereact/dropdown";
+import {Button} from 'primereact/button';
+import {Checkbox} from "primereact/checkbox";
+import {InputTextarea} from "primereact/inputtextarea";
+
+import ButtonBack from "../generalComponents/ButtonBack/ButtonBack";
 
 
 const EditProduct = ({product}) => {
 
-    const [category, setCategory] = useState('');
-    const [categoryRu, setCategoryRu] = useState('');
+    const [category, setCategory] = useState({});
+    const [categoryRu, setCategoryRu] = useState({});
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
@@ -29,7 +37,6 @@ const EditProduct = ({product}) => {
         axios
             .get('/allCategory')
             .then((res) => {
-                console.log('Произошла отправка запроса в БД', res.data)
                 setBD(res.data);
             })
             .catch((err) => {
@@ -38,19 +45,9 @@ const EditProduct = ({product}) => {
     }, [])
 
     useEffect(() => {
-        axios
-            .get('/allCategory')
-            .then((res) => {
-                console.log('Произошла отправка запроса в БД', res.data)
-                setBD(res.data);
-            })
-            .catch((err) => {
-                console.warn("Произошла ошибочка в БД", err)
-            })
-
-        if (checkDate) {
-            setCategory(product?.category);
-            setCategoryRu(product?.categoryRu);
+        if (checkDate && BD.length !== 0) {
+            setCategory(BD.find(el => el.name === product?.category));
+            setCategoryRu(BD.find(el => el.nameRu === product?.categoryRu));
             setName(product?.name);
             setPrice(product?.price);
             setIsStop(product.isStop);
@@ -58,7 +55,7 @@ const EditProduct = ({product}) => {
             setPromotionTimeFinish(product?.promotionTimeFinish);
             setDescription(product?.description)
         }
-    }, [product])
+    }, [product, BD])
 
     const removeData = () => {
 
@@ -86,8 +83,8 @@ const EditProduct = ({product}) => {
                 {
                     id: product._id,
                     queryId,
-                    category,
-                    categoryRu,
+                    category: category.name,
+                    categoryRu: category.nameRu,
                     name,
                     description,
                     price,
@@ -100,8 +97,8 @@ const EditProduct = ({product}) => {
             : sendData(
                 {
                     queryId,
-                    category,
-                    categoryRu,
+                    category: category.name,
+                    categoryRu: category.nameRu,
                     name,
                     description,
                     price,
@@ -116,7 +113,7 @@ const EditProduct = ({product}) => {
     useMainButtonEvent(tg, onSendData);
 
     useEffect(() => {
-        if (category && categoryRu && name && price) {
+        if (category && categoryRu && name.trim() && price) {
             tg?.MainButton.show();
             tg?.MainButton.setParams({
                 text: checkDate ? 'Обновить товар' : `Создать товар`,
@@ -128,50 +125,89 @@ const EditProduct = ({product}) => {
 
     return (
         <>
-            <div className={classes.mainBlock}>
+            {!checkDate && <ButtonBack/>}
+            <div className={classes.main}>
                 <h2 className={classes.title}>
                     {checkDate ? name : 'Создание нового товара'}
                 </h2>
-                <select className={classes.select} value={category} onChange={e => setCategory(e.target.value)}>
-                    <option value={''}>Укажите категорию товара EN</option>
-                    {BD.map((el, index) => {
-                        return <option key={index}
-                                       value={el.name}>
-                            {el.name}</option>
-                    })}
-                </select>
-                <select className={classes.select} value={categoryRu} onChange={e => setCategoryRu(e.target.value)}>
-                    <option value={''}>Укажите категорию товара RU</option>
-                    {BD.map((el, index) => {
-                        return <option key={index}
-                                       value={el.nameRu}>
-                            {el.nameRu}</option>
-                    })}
-                </select>
-                <input placeholder={'Введите название товара'}
-                       value={name}
-                       onChange={(e) => setName(e.target.value)}/>
-                <input placeholder={'Введите цену товара'}
-                       value={price}
-                       onChange={(e) => setPrice(e.target.value)}/>
-                <input placeholder={'Введити часы начала акции'}
-                       value={promotionTimeStart}
-                       onChange={(e) => setPromotionTimeStart(e.target.value)}/>
-                <input placeholder={'Введити часы конца акции'}
-                       value={promotionTimeFinish}
-                       onChange={(e) => setPromotionTimeFinish(e.target.value)}/>
-                <textarea placeholder={'Напишите описание товара'}
-                          value={description}
-                          onChange={e => setDescription(e.target.value)}/>
-                <div className={classes.blockIsStop}>
-                    <span>
+                <span className="p-float-label mb-5">
+                    <Dropdown inputId="nameEn"
+                              value={category}
+                              onChange={(e) => setCategory(e.value)}
+                              options={BD}
+                              optionLabel="name"
+                              className="w-full md:w-14rem "/>
+                    <label htmlFor="nameEn">Укажите категорию товара EN</label>
+                </span>
+                <span className="p-float-label mb-5">
+                    <Dropdown inputId="nameRu"
+                              value={categoryRu}
+                              onChange={(e) => setCategoryRu(e.value)}
+                              options={BD}
+                              optionLabel="nameRu"
+                              className="w-full md:w-14rem "/>
+                    <label htmlFor="nameRu">Укажите категорию товара RU</label>
+                </span>
+                <div className="card mb-5 w-full">
+                        <span className="p-float-label">
+                            <InputText id="name"
+                                       value={name}
+                                       onChange={(e) => setName(e.target.value)}
+                                       className={"w-full"}/>
+                            <label htmlFor="name">Введите название товара:</label>
+                        </span>
+                </div>
+                <div className="card mb-5 w-full">
+                        <span className="p-float-label">
+                            <InputText id="price"
+                                       keyfilter="int"
+                                       value={price}
+                                       onChange={(e) => setPrice(e.target.value)}
+                                       className={"w-full"}/>
+                            <label htmlFor="price">Введите цену товара:</label>
+                        </span>
+                </div>
+                <div className="card mb-5 w-full">
+                        <span className="p-float-label">
+                            <InputText id="promotionTimeStart"
+                                       keyfilter="int"
+                                       value={promotionTimeStart}
+                                       onChange={(e) => setPromotionTimeStart(e.target.value)}
+                                       className={"w-full"}/>
+                            <label htmlFor="promotionTimeStart">Введити часы начала акции:</label>
+                        </span>
+                </div>
+                <div className="card mb-5 w-full">
+                        <span className="p-float-label">
+                            <InputText id="promotionTimeFinish"
+                                       keyfilter="int"
+                                       value={promotionTimeFinish}
+                                       onChange={(e) => setPromotionTimeFinish(e.target.value)}
+                                       className={"w-full"}/>
+                            <label htmlFor="promotionTimeFinish">Введити часы конца акции:</label>
+                        </span>
+                </div>
+                <span className="p-float-label w-full h-10rem mb-5">
+                        <InputTextarea id="description"
+                                       autoResize
+                                       value={description}
+                                       onChange={(e) => setDescription(e.target.value)}
+                                       className={"w-full h-10rem"}/>
+                    <label htmlFor="description">Введите описание</label>
+                    </span>
+                <div className="card flex justify-content-around">
+                        <span>
                     {isStop
                         ? 'Убрать из стоплиста'
                         : 'Поставить в стоплист'}
                     </span>
-                    <input type={'checkbox'} checked={isStop} value={isStop} onClick={() => setIsStop(!isStop)}/>
+                    <Checkbox onChange={() => setIsStop(!isStop)}
+                              checked={isStop}> </Checkbox>
                 </div>
-                <button onClick={removeData}>Удалить товар</button>
+                {product && <Button label="Удалить товар"
+                                    severity="danger"
+                                    onClick={removeData}
+                                    className={"mt-5 h-4rem"}/>}
             </div>
         </>
     );

@@ -1,14 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import classes from './Reservation.module.css'
+import React, {useEffect, useRef, useState} from 'react';
+import classes from './Reservation.module.css';
+import classesMain from '../../generalStyle/mainWithTitle.module.css'
 import Calendar from "react-calendar";
 import {useTelegram} from "../../hooks/useTelegram";
 import {sendData} from "../../unitFunction/onSendData";
 import useMainButtonEvent from "../../hooks/useMainButtonEvent";
-import ButtonBack from "../ButtonBack/ButtonBack";
+import ButtonBack from "../generalComponents/ButtonBack/ButtonBack";
+
+import {InputText} from "primereact/inputtext";
+import {Toast} from "primereact/toast";
+import {Dropdown} from "primereact/dropdown";
 
 const AddReservation = () => {
 
     const {tg, queryId} = useTelegram();
+    const toast = useRef(null);
 
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState('');
@@ -17,8 +23,19 @@ const AddReservation = () => {
     const [time, setTime] = useState('');
     const [placeReservation, setPlace] = useState('')
     const [value, onChange] = useState(new Date());
-    const [error, setError] = useState({});
 
+    const placeName = [
+        {nameEn: 'vip_1', nameRu: 'Вип 1'},
+        {nameEn: 'vip_2', nameRu: 'Вип 2'},
+        {nameEn: 'vip_3', nameRu: 'Вип 3'},
+        {nameEn: 'vip_4', nameRu: 'Вип 4'},
+        {nameEn: 'vip_5', nameRu: 'Вип 5'},
+        {nameEn: 'vip_6', nameRu: 'Вип 6'},
+        {nameEn: 'vip_7', nameRu: 'Вип 7'},
+        {nameEn: 'table_1', nameRu: 'Стол 1'},
+        {nameEn: 'table_2', nameRu: 'Стол 2'},
+        {nameEn: 'table_3', nameRu: 'Стол 3'},
+    ]
     const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const checkPhone = phoneNumber.split('').every(el => number.some(element => element === el));
 
@@ -32,16 +49,28 @@ const AddReservation = () => {
     }, [])
 
     useEffect(() => {
-        !name.trim()
-            ? name && setNameError('Нельзя отправлять только пробелы')
-            : nameError && setNameError('')
+        if (name && !name.trim()) {
+            setNameError('Заполните коректно поле Имя');
+            showError('Заполните коректно поле Имя');
+        }
 
-        !checkPhone
-            ? phoneNumber && setPhoneNumberError('Номер должен состоять только из цифр')
-            : phoneNumberError && setPhoneNumberError('')
+        if (name.trim()) {
+            nameError && setNameError('');
+        }
 
+        if (!checkPhone) {
+            phoneNumber && setPhoneNumberError('Номер должен состоять только из цифр');
+            showError('Номер должен состоять только из цифр');
+        }
+
+        if (checkPhone) {
+            phoneNumberError && setPhoneNumberError('');
+        }
     }, [name, phoneNumber])
 
+    const showError = (error) => {
+        toast.current.show({severity: 'error', summary: 'Ошибка!', detail: `${error}`, life: 3000});
+    }
 
     const onSendData = () => {
         const timeReservation = new Date(value.getFullYear(), value.getMonth(), value.getDate(), Number(time.split(':')[0]), Number(time.split(':')[1]), 0);
@@ -56,15 +85,11 @@ const AddReservation = () => {
                 name,
                 phoneNumber,
                 timeReservation: timeReservation.getTime(),
-                placeReservation,
+                placeReservation: placeReservation.nameRu,
             },
             '/addReservation')
             .then((response) => {
-                console.log(response)
-                setError({
-                    text: response.data,
-                    status: response.status
-                })
+                response.status === 400 && showError(response.data)
             })
     };
 
@@ -81,47 +106,48 @@ const AddReservation = () => {
         }
     }, [name, phoneNumber, time, tg.MainButton, placeReservation, value])
 
+    console.log({placeReservation})
+
     return (
         <>
+            <Toast ref={toast} className={"w-8"}/>
             <ButtonBack/>
-            <div className={classes.main}>
-                <h3 className={classes.title}>Заявка на бронирование</h3>
-                <input className={classes.inp} value={name} placeholder={'Укажите имя'}
-                       onChange={(e) => setName(e.target.value)}/>
-                {nameError &&
-                <div className={classes.err}>
-                    {nameError}
-                </div>}
-                <input className={classes.inp} type={'tel'} placeholder={'Укажите ваш телефон'} value={phoneNumber}
-                       onChange={(e) => {
-                           setPhoneNumber(e.target.value)
-                       }}/>
-                {phoneNumberError &&
-                <div className={classes.err}>
-                    {phoneNumberError}
-                </div>}
+            <div className={classesMain.main}>
+                <h3 className={classesMain.title}>Заявка на бронирование</h3>
+                <div className="card mb-5 w-full">
+                        <span className="p-float-label">
+                            <InputText id="name"
+                                       value={name}
+                                       onChange={(e) => setName(e.target.value)}
+                                       className={nameError ? "p-invalid w-full" : "w-full"}/>
+                            <label htmlFor="name">Укажите имя :</label>
+                        </span>
+                </div>
+                <div className="card mb-3 w-full">
+                        <span className="p-float-label">
+                            <InputText id="phoneNumber"
+                                       value={phoneNumber}
+                                       onChange={(e) => setPhoneNumber(e.target.value)}
+                                       className={phoneNumberError ? "p-invalid w-full" : "w-full"}/>
+                            <label htmlFor="phoneNumber">Укажите ваш телефон :</label>
+                        </span>
+                </div>
                 <div className={classes.time}>
                     <span>Укажите время: </span>
-                    <input className={classes.inp} type={'time'} value={time}
-                           onChange={(e) => setTime(e.target.value)}/>
+                    <InputText type={"time"}
+                               value={time}
+                               onChange={(e) => setTime(e.target.value)}
+                               className={"w-5"}/>
                 </div>
-                <select className={classes.select} value={placeReservation} onChange={e => setPlace(e.target.value)}>
-                    <option value={''}>Укажите место бронирования</option>
-                    <option value={'Вип 1'}>Вип-1</option>
-                    <option value={'Вип 2'}>Вип-2</option>
-                    <option value={'Вип 3'}>Вип-3</option>
-                    <option value={'Вип 4'}>Вип-4</option>
-                    <option value={'Вип 5'}>Вип-5</option>
-                    <option value={'Вип 6'}>Вип-6</option>
-                    <option value={'Вип 7'}>Вип-7</option>
-                    <option value={'Стол 1'}>Стол 1</option>
-                    <option value={'Стол 2'}>Стол 2</option>
-                    <option value={'Стол 3'}>Стол 3</option>
-                </select>
-                {error.status === 400 &&
-                <div className={classes.err}>
-                    {error.text}
-                </div>}
+                <span className="p-float-label my-5">
+                    <Dropdown inputId="place"
+                              value={placeReservation}
+                              onChange={(e) => setPlace(e.value)}
+                              options={placeName}
+                              optionLabel="nameRu"
+                              className="w-full md:w-14rem my-3 " />
+                    <label htmlFor="place">Укажите место бронирования</label>
+                </span>
                 <h3 className={classes.calendarLable}>Выберите дату:</h3>
                 <Calendar onChange={onChange} value={value}/>
             </div>

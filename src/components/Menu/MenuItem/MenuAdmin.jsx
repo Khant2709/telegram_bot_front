@@ -1,14 +1,14 @@
 import React from 'react';
 import classes from "./MenuItem.module.css";
+import classesMain from '../../../generalStyle/mainWithTitle.module.css';
 import itemClasses from '../../../generalStyle/item.module.css'
-import setting from "../../../img/setting.png";
 import {useNavigate} from "react-router";
 
 const MenuAdmin = ({dataList}) => {
 
     const navigate = useNavigate();
     return (
-        <div className={classes.mainBlock}>
+        <div className={classesMain.main}>
             {dataList?.map((el, index) => {
                 return <div key={index} className={itemClasses.itemEdit} onClick={() => navigate(`${el._id}`)}>
                     <span className={classes.itemName}>
@@ -17,7 +17,8 @@ const MenuAdmin = ({dataList}) => {
                     <span className={classes.itemPrice}>
                         {el.price} р
                     </span>
-                    <img src={setting} className={classes.imgSetting} onClick={() => navigate(`${el._id}`)}/>
+                    <i className="pi pi-cog w-1rem align-self-center mx-auto"
+                       onClick={() => navigate(`${el._id}`)}/>
                 </div>
             })}
 

@@ -1,0 +1,14 @@
+.main {
+    width: 80%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    margin: 1em auto;
+
+}
+
+.title {
+    margin: 0px auto 2rem;
+    color: #EFEFEF;
+    text-align:center;
+}

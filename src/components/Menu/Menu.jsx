@@ -3,12 +3,13 @@ import classes from './Menu.module.css';
 import {Route, Routes, useNavigate} from "react-router";
 import NavBar from "./NavBar/NavBar";
 import MenuItem from "./MenuItem/MenuItem";
-import basketImg from '../../img/basket.png';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import MenuAdmin from "./MenuItem/MenuAdmin";
 import Product from "./Product/Product";
-import ButtonBack from "../ButtonBack/ButtonBack";
+import ButtonBack from "../generalComponents/ButtonBack/ButtonBack";
+
+import {Badge} from 'primereact/badge';
 
 
 const Menu = () => {
@@ -28,9 +29,9 @@ const Menu = () => {
             myKey: el.name
         };
         return state;
-    }, {basket: { dataList: addedProductList, myKey: 'basket' }});
+    }, {basket: {dataList: addedProductList, myKey: 'basket'}});
 
-    const { dataList, myKey } = categoryMap[Object.values(params).join().split('/')[0]] || {};
+    const {dataList, myKey} = categoryMap[Object.values(params).join().split('/')[0]] || {};
 
     useEffect(() => {
         const mainPrice = addedProductList.reduce((total, el) => total + el.price * el.count, 0);
@@ -53,10 +54,9 @@ const Menu = () => {
                     <span>
                         {totalPrice} р
                     </span>
-                    <img src={basketImg}/>
-                    <span className={classes.iconBasket}>
-                        {countItem}
-                    </span>
+                    <i className="pi pi-shopping-cart" style={{fontSize: '2rem'}}>
+                        <Badge value ={countItem}> </Badge>
+                    </i>
                 </div>
             </div>
             <Routes>

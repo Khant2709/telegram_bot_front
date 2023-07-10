@@ -2,9 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import classes from './Reservation.module.css'
+import classesMain from '../../generalStyle/mainWithTitle.module.css'
 import {useNavigate} from "react-router";
 import ReservationsList from "./ReservationsList/ReservationsList";
 import {sendData} from "../../unitFunction/onSendData";
+import ButtonBack from "../generalComponents/ButtonBack/ButtonBack";
+
+import {Button} from 'primereact/button';
+
 
 const Reservation = () => {
 
@@ -29,14 +34,12 @@ const Reservation = () => {
         )
 
         return (
-            <div className={classes.main}>
-                <div className={classes.btns}>
-                    <button onClick={() => navigate(-1)}>
-                        Назад
-                    </button>
-                    <button onClick={() => navigate('/AddReservation')}>
-                        Забронировать
-                    </button>
+            <div className={classesMain.main}>
+                <div className={classes.header}>
+                    <ButtonBack/>
+                    <Button label={"Забронировать"}
+                            className={"bg-blue-500 border-round-xl"}
+                            onClick={() => navigate('/AddReservation')}/>
                 </div>
                 <Calendar onChange={onChange} value={value}/>
                 <ReservationsList list={reservationsList} day={startTime.getDate()}/>
